@@ -8,52 +8,57 @@ import java.util.regex.*;
 
 public class Solution {
 
-    // Complete the minimumBribes function below.
-    static void minimumBribes(int[] q) {
-   int subornos = 0;
-        
-        boolean flag = false;
-        for (int i = 0; i < q.length; i++) {
-            
-            if (    q[i] - (i + 1) > 0 ) {
-                if(q[i] - (i + 1) >2){
-                    flag =true;
-                }
-            }
-            
-            for(int j=0;j<i;j++){
-                if(q[j]>q[i]) subornos++;
-            }
-            
-        }
-        
-        if(flag) System.out.println("Too chaotic"); else System.out.println(subornos);  
+	// Complete the rotLeft function below.
+	static int[] rotLeft(int[] a, int d) {
 
-    }
+		int nrotations = d % a.length;
+		int[] b = new int[a.length];
+		
+		for (int i = 0; i < b.length; i++) {
+			if(i+nrotations<b.length) b[i]=a[i+nrotations];
+			else b[i]=a[nrotations-(b.length-1)];
+		}
+		
+		
+		
+		return b;
+	}
 
-    private static final Scanner scanner = new Scanner(System.in);
+	private static final Scanner scanner = new Scanner(System.in);
 
-    public static void main(String[] args) {
-        int t = scanner.nextInt();
-        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+	public static void main(String[] args) throws IOException {
+		BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
 
-        for (int tItr = 0; tItr < t; tItr++) {
-            int n = scanner.nextInt();
-            scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+		String[] nd = scanner.nextLine().split(" ");
 
-            int[] q = new int[n];
+		int n = Integer.parseInt(nd[0]);
 
-            String[] qItems = scanner.nextLine().split(" ");
-            scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+		int d = Integer.parseInt(nd[1]);
 
-            for (int i = 0; i < n; i++) {
-                int qItem = Integer.parseInt(qItems[i]);
-                q[i] = qItem;
-            }
-            
-            minimumBribes(q);
-        }
+		int[] a = new int[n];
 
-        scanner.close();
-    }
+		String[] aItems = scanner.nextLine().split(" ");
+		scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+		for (int i = 0; i < n; i++) {
+			int aItem = Integer.parseInt(aItems[i]);
+			a[i] = aItem;
+		}
+
+		int[] result = rotLeft(a, d);
+
+		for (int i = 0; i < result.length; i++) {
+			bufferedWriter.write(String.valueOf(result[i]));
+
+			if (i != result.length - 1) {
+				bufferedWriter.write(" ");
+			}
+		}
+
+		bufferedWriter.newLine();
+
+		bufferedWriter.close();
+
+		scanner.close();
+	}
 }
